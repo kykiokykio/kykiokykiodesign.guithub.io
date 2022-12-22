@@ -1,0 +1,112 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>注册界面</title>
+    <style>
+        #container{
+            background:white;
+            color:white;
+            background-color:transparent;
+            padding:15px;
+            margin:350px auto 0px;
+            width:600px;
+            text-align:center;
+            font-family:"微软雅黑 Light";
+            box-shadow:10px 10px 15px  black  ;	
+
+        }
+        hr{width:80%;
+        border:white 1px  solid  ;
+        margin-bottom:15px;
+        }
+        body{
+                background:#cccccc;
+                background:url("./school_pet/images/loginBackground.jpg")  no-repeat center center;   /*加载背景图*/   /* 背景图不平铺 */
+                background-size:cover;  /* 让背景图基于容器大小伸缩 */
+                background-attachment:fixed;        /* 当内容高度大于图片高度时，背景图像的位置相对于viewport固定//此条属性必须设置否则可能无效/ */    
+                background-color:#CCCCCC;   /* 设置背景颜色，背景图加载过程中会显示背景色 */
+            }
+        input{
+            width:180px;
+            height:20px;
+            margin:5px;
+            font-size:16px;
+            font-family:"微软雅黑 Light";}
+            button{width:120px;
+            height:40px;
+            background:rgba(100, 149, 237, .7);
+            border:0px;
+            color:white;
+            margin:10px;
+            font-size:18px;
+            font-family:"微软雅黑 Light";
+            font-weight:bold;
+        }
+        button:hover{
+            background:#00c8D0;
+        }
+    </style>
+
+    <script type="text/javascript" src="jquery-3.4.1.min.js"></script>
+    <script>
+        function doReg() {
+            var username = $("#username").val();
+            var password = $("#password").val();
+            var password2 = $("#password2").val();
+
+            
+            if (password !== password2) {
+                window.alert("两次密码输入有误，请重新输入");
+                return false;
+            }
+
+            //window.alert(username.length + password.length);
+
+
+            if (username.length < 5 || password.length < 6) {
+                window.alert("用户名不能小于5位数,密码不能小于6位数");
+                
+                return false;
+            }
+            //window.alert(username + password);
+
+            var param = "username=" + username + "&password=" + password;
+            $.post('reg.php', param, function(data){
+                if (data == 'reg-pass') {
+                    window.alert("注册成功");
+                    //window.open ("index.html");
+                    location.href = "./"
+                }
+                else if (data == 'user-exists') {
+                    window.alert("用户名已经注册");
+                }
+                else {
+                    window.alert("注册失败");
+                }
+            });
+        }
+    </script>
+</head>
+
+<body>
+	<div id="container">
+    	<h1>用户注册页面</h1>
+        <hr/>
+    <!---表单-->
+    	<label>用户名：
+        	<input type="text" name="username"  placeholder="请输入用户名" id="username" required /> 
+            <!--placeholder=添加提示语句  required非空验证-->
+        </label><br/>
+        <label>密&ensp;&ensp;码：
+        	<input type="password" name="pwd"  placeholder="请输入密码" id="password" required />
+        </label><br/>
+        <label>确&emsp;认：
+        	<input type="password" name="pwd2"  placeholder="请再次输入密码" id="password2"required /> 
+        </label><br/>
+        
+        
+        <button type="submit" onclick="doReg()"> 提交注册 </button>
+    </div>
+</body>
+</html>
